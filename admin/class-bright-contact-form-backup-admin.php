@@ -100,4 +100,25 @@ class Bright_Contact_Form_Backup_Admin {
 
 	}
 
+	/**
+	 * Register the options page for the admin area.
+	 *
+	 * @since    1.0.0
+	 */
+	public static function bright_options_page() {
+		add_options_page( 'Bright - Form Backup', 'Bright - Form Backup', 'manage_options', 'bright-contact-form-backup', function() {
+			include(plugin_dir_path( __FILE__ ) . 'partials/bright-contact-form-backup-admin-display.php');
+		} );
+	}
+
+	/**
+	 * Register the settings.
+	 *
+	 * @since    1.0.0
+	 */
+	public static function bright_register_settings() {
+		// Add the default settings
+		register_setting( 'bright-form-backup-settings', 'bright_form_backup_period' );
+	}
+
 }

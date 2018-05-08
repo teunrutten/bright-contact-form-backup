@@ -14,3 +14,7 @@
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
+<div class="wrap bright-backup-form-wrap">
+  <h1>Bright - Formulier backup instellingen</h1>
+  <p>Hier komen alle instellingen</p>
+</div>
