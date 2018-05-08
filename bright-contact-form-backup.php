@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       Bright Contact Form Backup
  * Plugin URI:        https://github.com/teunrutten/bright-contact-form-backup
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       This plugin checks for all form submissions and backups the data, it also has an option to remove the data every week/month/year
  * Version:           1.0.0
  * Author:            Teun Rutten
  * Author URI:        https://github.com/teunrutten/
