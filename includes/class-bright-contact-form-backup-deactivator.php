@@ -30,7 +30,7 @@ class Bright_Contact_Form_Backup_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-
+		unregister_post_type( 'bright_submissions' );
 	}
 
 }

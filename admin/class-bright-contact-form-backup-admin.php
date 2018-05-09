@@ -121,4 +121,42 @@ class Bright_Contact_Form_Backup_Admin {
 		register_setting( 'bright-form-backup-settings', 'bright_form_backup_period' );
 	}
 
+	public static function bright_register_post_type () {
+		$labels = array(
+			'name'                => 'Bright - Inzendingen',
+			'singular_name'       => 'Inzending',
+			'add_new'             => 'Nieuwe Inzending',
+			'add_new_item'        => 'Nieuwe Inzending',
+			'edit_item'           => 'Wijzig Inzending',
+			'new_item'            => 'Nieuwe Inzending',
+			'view_item'           => 'Bekijk Inzending',
+			'search_items'        => 'Zoek Inzendingen',
+			'not_found'           => 'Geen Inzending gevonden',
+			'not_found_in_trash'  => 'Geen Inzending gevonden in prullenbak',
+			'menu_name'           => 'Inzendingen'
+		);
+
+		$args = array(
+			'labels'              => $labels,
+			'hierarchical'        => false,
+			'rewrite'             => array('slug' => ''),
+			'description'         => '',
+			'taxonomies'          => array(),
+			'public'              => false,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'show_in_admin_bar'   => true,
+			'menu_position'       => 20,
+			'menu_icon'           => 'dashicons-archive',
+			'show_in_nav_menus'   => true,
+			'publicly_queryable'  => false,
+			'exclude_from_search' => true,
+			'has_archive'         => false,
+			'query_var'           => true,
+			'can_export'          => true
+		);
+
+		register_post_type('bright_submissions', $args);
+	}
+
 }
