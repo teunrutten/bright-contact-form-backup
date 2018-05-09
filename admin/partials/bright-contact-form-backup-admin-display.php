@@ -18,8 +18,12 @@
    'posts_per_page' => -1
    )
  );
+ if ($posts) {
+   $post_meta = get_post_meta( $posts[0]->ID, 'bright_form_data', true );
+ } else {
+   $post_meta = array();
+ }
 
- $post_meta = get_post_meta( $posts[0]->ID, 'bright_form_data', true );
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
