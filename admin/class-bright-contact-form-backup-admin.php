@@ -168,6 +168,8 @@ class Bright_Contact_Form_Backup_Admin {
 	}
 
 	public static function bright_create_form_submission ($post) {
+		require_once plugin_dir_path( __FILE__ ) . 'class-bright-contact-form-backup-admin-cryption.php';
+		
 		$post_content = array();
 		$form_title   = isset( $post['form_title'] ) ? sanitize_text_field( $post['form_title'] ) : 'Onbekend';
 
@@ -209,7 +211,8 @@ class Bright_Contact_Form_Backup_Admin {
 
 		foreach ( $post as $key => $value ) {
 			$clean = sanitize_text_field($value);
-      $post_content[$key] = $clean;
+			$cryptor = new Bright_Contact_Form_Backup_Admin_Cryption;
+      $post_content[$key] = $cryptor->encrypt($clean);
 		}
 
 		$new_post = array(

@@ -53,6 +53,8 @@ class Bright_Contact_Form_Backup_Admin_Metabox {
      * Renders the meta box.
      */
     public function render_metabox( $post ) {
+			require_once plugin_dir_path( __FILE__ ) . 'class-bright-contact-form-backup-admin-cryption.php';
+
       // Add nonce for security and authentication.
       wp_nonce_field( 'bright_submissions_nonce_action', 'bright_submissions_nonce' );
 
@@ -60,14 +62,18 @@ class Bright_Contact_Form_Backup_Admin_Metabox {
         $post_meta = get_post_meta( $post->ID, 'bright_form_data', true );
         ?>
         <table>
-          <?php foreach($post_meta as $key => $value) { ?>
+          <?php foreach($post_meta as $key => $value) {
+
+						$cryptor = new Bright_Contact_Form_Backup_Admin_Cryption;
+						$plain_value = $cryptor->decrypt($value);
+						?>
             <tr>
-              <?php if ($key === 'file_location' && $value !== '') { ?>
+              <?php if ($key === 'file_location' && $plain_value !== '') { ?>
                 <th><?php echo $key; ?></th>
-                <td><a href="<?php echo $value; ?>" target="_blank"><?php echo $post_meta['file_name']; ?></a><td>
+                <td><a href="<?php echo $plain_value; ?>" target="_blank"><?php echo $post_meta['file_name']; ?></a><td>
               <?php } else { ?>
                 <th><?php echo $key; ?></th>
-                <td><?php echo $value; ?><td>
+                <td><?php echo $plain_value; ?><td>
               <?php } ?>
             </tr>
           <?php  } ?>
