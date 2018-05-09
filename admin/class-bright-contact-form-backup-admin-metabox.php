@@ -55,6 +55,23 @@ class Bright_Contact_Form_Backup_Admin_Metabox {
     public function render_metabox( $post ) {
       // Add nonce for security and authentication.
       wp_nonce_field( 'bright_submissions_nonce_action', 'bright_submissions_nonce' );
+
+      if (get_post_meta( $post->ID, 'bright_form_data', true )) {
+        $post_meta = get_post_meta( $post->ID, 'bright_form_data', true );
+        ?>
+        <table>
+          <?php foreach($post_meta as $key => $value) { ?>
+            <tr>
+              <th><?php echo $key; ?></th>
+              <td><?php echo $value; ?><td>
+            </tr>
+          <?php  } ?>
+        </table>
+        <?php
+      } else {
+        echo 'Geen beschikbare data';
+      }
+
     }
 
     /**

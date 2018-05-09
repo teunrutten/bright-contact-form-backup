@@ -153,7 +153,10 @@ class Bright_Contact_Form_Backup_Admin {
 			'exclude_from_search' => true,
 			'has_archive'         => false,
 			'query_var'           => true,
-			'can_export'          => true
+			'can_export'          => true,
+			'supports' 						=> array(
+				'title'
+			)
 		);
 
 		register_post_type('bright_submissions', $args);
@@ -165,8 +168,24 @@ class Bright_Contact_Form_Backup_Admin {
 	}
 
 	public static function bright_create_form_submission ($post) {
+		$post_content = array();
+		$form_title   = isset( $post['form_title'] ) ? sanitize_text_field( $post['form_title'] ) : 'Onbekend';
 		foreach ( $post as $key => $value ) {
-			// Do something here
+			$clean = sanitize_text_field($value);
+      $post_content[$key] = $clean;
+		}
+
+		$new_post = array(
+	    'post_title' => $form_title,
+	    'post_status' => 'publish',
+	    'post_author' => 1,
+	    'post_type' => 'bright_submissions',
+    );
+
+		$post_id = wp_insert_post( $new_post, $wp_error );
+
+		if ($post_id !== 0 && !is_wp_error( $post_id )) {
+			add_post_meta( $post_id, 'bright_form_data', $post_content );
 		}
 	}
 
