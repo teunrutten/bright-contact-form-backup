@@ -51,7 +51,6 @@ class Bright_Contact_Form_Backup_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
 	}
 
 	/**
@@ -119,7 +118,25 @@ class Bright_Contact_Form_Backup_Admin {
 	public static function bright_register_settings() {
 		// Add the default settings
 		register_setting( 'bright-form-backup-settings', 'bright_form_backup_period' );
+
+		$posts = get_posts(array(
+			'post_type'   => 'brightsubmissions',
+			'post_status' => 'publish',
+			'posts_per_page' => -1
+			)
+		);
+
+		if ($posts) {
+			$post_meta = get_post_meta( $posts[0]->ID, 'bright_form_data', true );
+
+			foreach($post_meta as $key => $value) {
+				register_setting( 'bright-form-backup-settings', 'bright_form_backup_' . $key );
+			}
+		}
 	}
+
+
+
 
 	public static function bright_register_post_type () {
 		$labels = array(
@@ -154,12 +171,45 @@ class Bright_Contact_Form_Backup_Admin {
 			'has_archive'         => false,
 			'query_var'           => true,
 			'can_export'          => true,
+			'capability_type'			=> 'post',
 			'supports' 						=> array(
 				'title'
 			)
 		);
 
-		register_post_type('bright_submissions', $args);
+		register_post_type('brightsubmissions', $args);
+		add_filter("manage_edit-brightsubmissions_columns", 'add_custom_admin_column' );
+		add_action('manage_brightsubmissions_posts_custom_column', 'bright_add_custom_column', 10, 2);
+
+		function add_custom_admin_column($columns) {
+			$posts = get_posts(array(
+		    'post_type'   => 'brightsubmissions',
+		    'post_status' => 'publish',
+		    'posts_per_page' => -1
+			  )
+			);
+
+			$post_meta = get_post_meta( $posts[0]->ID, 'bright_form_data', true );
+			foreach ($post_meta as $key => $value) {
+				if (esc_attr( get_option('bright_form_backup_' . $key) ) === 'on') {
+					$columns[$key] = $key;
+				}
+			}
+      return $columns;
+		}
+
+		function bright_add_custom_column($column, $post_id) {
+			global $post;
+
+			$post_meta = get_post_meta( $post_id, 'bright_form_data', true );
+			foreach($post_meta as $key => $value) {
+				if ($column === $key) {
+					if (esc_attr( get_option('bright_form_backup_' . $key) ) === 'on') {
+						echo $value;
+					}
+				}
+			}
+		}
 	}
 
 	public static function bright_create_meta_box() {
@@ -216,7 +266,7 @@ class Bright_Contact_Form_Backup_Admin {
 	    'post_title' => $form_title,
 	    'post_status' => 'publish',
 	    'post_author' => 1,
-	    'post_type' => 'bright_submissions',
+	    'post_type' => 'brightsubmissions',
     );
 
 		$post_id = wp_insert_post( $new_post, $wp_error );
@@ -227,7 +277,8 @@ class Bright_Contact_Form_Backup_Admin {
 	}
 
 	public static function bright_remove_publish_box() {
-		remove_meta_box( 'submitdiv', 'bright_submissions', 'side' );
+		remove_meta_box( 'submitdiv', 'brightsubmissions', 'side' );
 	}
+
 
 }
