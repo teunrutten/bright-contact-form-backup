@@ -33,6 +33,9 @@ class Bright_Contact_Form_Backup_Deactivator {
 		if ( post_type_exists('bright_submissions') ) {
 			unregister_post_type( 'bright_submissions' );
 		}
+		if ( taxonomy_exists('bright_form_name') ) {
+			unregister_taxonomy( 'bright_form_name' );
+		}
 	}
 
 }

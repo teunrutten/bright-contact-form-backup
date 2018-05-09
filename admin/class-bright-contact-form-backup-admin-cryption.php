@@ -22,7 +22,7 @@
  */
 class Bright_Contact_Form_Backup_Admin_Cryption {
 
-  protected static $key = AUTH_KEY; // can use in plugin??
+  protected static $key = AUTH_KEY;
   protected static $cipher = "aes-128-cbc";
 
   protected static function ivlen()

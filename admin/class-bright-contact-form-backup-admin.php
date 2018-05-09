@@ -141,7 +141,7 @@ class Bright_Contact_Form_Backup_Admin {
 			'hierarchical'        => false,
 			'rewrite'             => array('slug' => ''),
 			'description'         => '',
-			'taxonomies'          => array(),
+			'taxonomies'          => array('bright_form_name'),
 			'public'              => false,
 			'show_ui'             => true,
 			'show_in_menu'        => true,
@@ -162,6 +162,32 @@ class Bright_Contact_Form_Backup_Admin {
 		register_post_type('bright_submissions', $args);
 	}
 
+	public static function bright_register_taxonomy () {
+
+		$labels = array(
+			'name'              => 'Formulieren',
+			'singular_name'     => 'Formulier',
+			'search_items'      => 'Zoek Formulieren',
+			'all_items'         => 'Alle Formulieren',
+			'edit_item'         => 'Wijzig Formulier',
+			'add_new_item'      => 'Nieuw Formulier',
+			'new_item_name'     => 'Nieuw Formulier',
+			'menu_name'         => 'Formulier',
+		);
+
+		$args = array(
+			'hierarchical'      => true,
+			'labels'            => $labels,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'query_var'         => true,
+			'public'            => false,
+			'rewrite'			      => false
+		);
+
+		register_taxonomy( 'bright_form_name', array( 'bright_submissions' ), $args );
+	}
+
 	public static function bright_create_meta_box() {
 		require_once plugin_dir_path( __FILE__ ) . 'class-bright-contact-form-backup-admin-metabox.php';
 		$metabox = new Bright_Contact_Form_Backup_Admin_Metabox();
@@ -169,7 +195,7 @@ class Bright_Contact_Form_Backup_Admin {
 
 	public static function bright_create_form_submission ($post) {
 		require_once plugin_dir_path( __FILE__ ) . 'class-bright-contact-form-backup-admin-cryption.php';
-		
+
 		$post_content = array();
 		$form_title   = isset( $post['form_title'] ) ? sanitize_text_field( $post['form_title'] ) : 'Onbekend';
 
@@ -215,11 +241,21 @@ class Bright_Contact_Form_Backup_Admin {
       $post_content[$key] = $cryptor->encrypt($clean);
 		}
 
+		// create taxonomy term if does not exist yet
+		$tax = term_exists( $post['form_title'], 'bright_form_name' );
+
+		if ( !$tax ) {
+			$tax = wp_insert_term( $post['form_title'], 'bright_form_name' );
+		}
+
 		$new_post = array(
 	    'post_title' => $form_title,
 	    'post_status' => 'publish',
 	    'post_author' => 1,
 	    'post_type' => 'bright_submissions',
+			'tax_input' => array(
+				'bright_form_name' => array( $tax['term_taxonomy_id'] ),
+			)
     );
 
 		$post_id = wp_insert_post( $new_post, $wp_error );
