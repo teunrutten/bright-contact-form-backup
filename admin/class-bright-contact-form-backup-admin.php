@@ -226,4 +226,8 @@ class Bright_Contact_Form_Backup_Admin {
 		}
 	}
 
+	public static function bright_remove_publish_box() {
+		remove_meta_box( 'submitdiv', 'bright_submissions', 'side' );
+	}
+
 }
