@@ -170,6 +170,43 @@ class Bright_Contact_Form_Backup_Admin {
 	public static function bright_create_form_submission ($post) {
 		$post_content = array();
 		$form_title   = isset( $post['form_title'] ) ? sanitize_text_field( $post['form_title'] ) : 'Onbekend';
+
+		// Check if a file is posted, and if the file excists, if so, set location as meta data
+		if (isset( $_FILES['bestand']['name'] ) && ! empty( $_FILES['bestand']['name'] )) {
+			if (file_exists( WP_CONTENT_DIR . '/uploads/tmp/' . $_FILES['bestand']['name'] )) {
+				$upload_dir = wp_upload_dir();
+				$post['file_location'] = $upload_dir['baseurl'] . '/tmp/' . $_FILES['bestand']['name'];
+				$post['file_name'] = $_FILES['bestand']['name'];
+			} else {
+				$post['file_location'] = '';
+				$post['file_name'] = $_FILES['bestand']['name'];
+			}
+		}
+
+		// Check if a file is posted, and if the file excists, if so, set location as meta data
+		if (isset( $_FILES['bestand_2']['name'] ) && ! empty( $_FILES['bestand_2']['name'] )) {
+			if (file_exists( WP_CONTENT_DIR . '/uploads/tmp/' . $_FILES['bestand_2']['name'] )) {
+				$upload_dir = wp_upload_dir();
+				$post['file_location'] = $upload_dir['baseurl'] . '/tmp/' . $_FILES['bestand_2']['name'];
+				$post['file_name'] = $_FILES['bestand_2']['name'];
+			} else {
+				$post['file_location'] = '';
+				$post['file_name'] = $_FILES['bestand_2']['name'];
+			}
+		}
+
+		// Check if a file is posted, and if the file excists, if so, set location as meta data
+		if (isset( $_FILES['bestand_3']['name'] ) && ! empty( $_FILES['bestand_3']['name'] )) {
+			if (file_exists( WP_CONTENT_DIR . '/uploads/tmp/' . $_FILES['bestand_3']['name'] )) {
+				$upload_dir = wp_upload_dir();
+				$post['file_location'] = $upload_dir['baseurl'] . '/tmp/' . $_FILES['bestand_3']['name'];
+				$post['file_name'] = $_FILES['bestand_3']['name'];
+			} else {
+				$post['file_location'] = '';
+				$post['file_name'] = $_FILES['bestand_3']['name'];
+			}
+		}
+
 		foreach ( $post as $key => $value ) {
 			$clean = sanitize_text_field($value);
       $post_content[$key] = $clean;

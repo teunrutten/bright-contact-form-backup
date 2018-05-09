@@ -62,8 +62,13 @@ class Bright_Contact_Form_Backup_Admin_Metabox {
         <table>
           <?php foreach($post_meta as $key => $value) { ?>
             <tr>
-              <th><?php echo $key; ?></th>
-              <td><?php echo $value; ?><td>
+              <?php if ($key === 'file_location' && $value !== '') { ?>
+                <th><?php echo $key; ?></th>
+                <td><a href="<?php echo $value; ?>" target="_blank"><?php echo $post_meta['file_name']; ?></a><td>
+              <?php } else { ?>
+                <th><?php echo $key; ?></th>
+                <td><?php echo $value; ?><td>
+              <?php } ?>
             </tr>
           <?php  } ?>
         </table>

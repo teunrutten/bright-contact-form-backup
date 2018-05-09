@@ -5,4 +5,4 @@ Really awesome plugin to backup data from forms
 
 == Description ==
 
-This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
+- Make sure all file inputs have one of the following names: 'bestand', 'bestand_2', 'bestand_3'
