@@ -159,4 +159,15 @@ class Bright_Contact_Form_Backup_Admin {
 		register_post_type('bright_submissions', $args);
 	}
 
+	public static function bright_create_meta_box() {
+		require_once plugin_dir_path( __FILE__ ) . 'class-bright-contact-form-backup-admin-metabox.php';
+		$metabox = new Bright_Contact_Form_Backup_Admin_Metabox();
+	}
+
+	public static function bright_create_form_submission ($post) {
+		foreach ( $post as $key => $value ) {
+			// Do something here
+		}
+	}
+
 }

@@ -67,6 +67,8 @@ class Bright_Contact_Form_Backup_Loader {
 		$this->actions = $this->add( $this->actions, 'admin_menu', 'Bright_Contact_Form_Backup_Admin', 'bright_options_page', $priority, $accepted_args );
 		$this->actions = $this->add( $this->actions, 'admin_init', 'Bright_Contact_Form_Backup_Admin', 'bright_register_settings', $priority, $accepted_args );
 		$this->actions = $this->add( $this->actions, 'init', 'Bright_Contact_Form_Backup_Admin', 'bright_register_post_type', $priority, $accepted_args );
+		$this->actions = $this->add( $this->actions, 'bright_save_form_submission', 'Bright_Contact_Form_Backup_Admin', 'bright_create_form_submission', $priority, $accepted_args );
+		$this->actions = $this->add( $this->actions, 'init', 'Bright_Contact_Form_Backup_Admin', 'bright_create_meta_box', $priority, $accepted_args );
 	}
 
 	/**
