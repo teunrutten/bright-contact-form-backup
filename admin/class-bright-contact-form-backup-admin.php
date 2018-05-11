@@ -169,7 +169,7 @@ class Bright_Contact_Form_Backup_Admin {
 			'publicly_queryable'  => false,
 			'exclude_from_search' => true,
 			'has_archive'         => false,
-			'query_var'           => true,
+			'query_var'           => false,
 			'can_export'          => true,
 			'capability_type'			=> 'post',
 			'supports' 						=> array(
