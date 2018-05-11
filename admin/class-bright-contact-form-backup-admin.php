@@ -254,7 +254,6 @@ class Bright_Contact_Form_Backup_Admin {
 		require_once plugin_dir_path( __FILE__ ) . 'class-bright-contact-form-backup-admin-cryption.php';
 
 		$post_content = array();
-		$form_title   = isset( $post['form_title'] ) ? sanitize_text_field( $post['form_title'] ) : 'Onbekend';
 
 		// Check if a file is posted, and if the file excists, if so, set location as meta data
 		if (isset( $_FILES['bestand']['name'] ) && ! empty( $_FILES['bestand']['name'] )) {
@@ -307,7 +306,7 @@ class Bright_Contact_Form_Backup_Admin {
 		}
 
 		$new_post = array(
-	    'post_title' => $form_title,
+	    'post_title' => 'Inzending #' . uniqid(),
 	    'post_status' => 'publish',
 	    'post_author' => 1,
 	    'post_type' => 'brightsubmissions',
