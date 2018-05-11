@@ -63,21 +63,21 @@ class Bright_Contact_Form_Backup_Admin_Metabox {
         ?>
         <table>
           <?php foreach($post_meta as $key => $value) {
-
-						$cryptor = new Bright_Contact_Form_Backup_Admin_Cryption;
-						$plain_value = $cryptor->decrypt($value);
-						// $plain_value = $value;
-						?>
-            <tr>
-              <?php if ($key === 'file_location' && $plain_value !== '') { ?>
-                <th><?php echo $key; ?></th>
-                <td><a href="<?php echo $plain_value; ?>" target="_blank"><?php echo $post_meta['file_name']; ?></a><td>
-              <?php } else { ?>
-                <th><?php echo $key; ?></th>
-                <td><?php echo $plain_value; ?><td>
-              <?php } ?>
-            </tr>
-          <?php  } ?>
+						if (!strpos($key, '-generated_key_bcfb')) {
+							$cryptor = new Bright_Contact_Form_Backup_Admin_Cryption;
+							$plain_value = $cryptor->decrypt($value, $post_meta[$key . '-generated_key_bcfb']);
+							// $plain_value = $value;
+							?>
+	            <tr>
+	              <?php if ($key === 'file_location' && $plain_value !== '') { ?>
+	                <th><?php echo $key; ?></th>
+	                <td><a href="<?php echo $plain_value; ?>" target="_blank"><?php echo $cryptor->decrypt($post_meta['file_name'], $post_meta['file_name-generated_key_bcfb']); ?></a><td>
+	              <?php } else { ?>
+	                <th><?php echo $key; ?></th>
+	                <td><?php echo $plain_value; ?><td>
+	              <?php } ?>
+	            </tr>
+          <?php  } } ?>
         </table>
         <?php
       } else {

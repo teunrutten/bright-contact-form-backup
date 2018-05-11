@@ -131,7 +131,9 @@ class Bright_Contact_Form_Backup_Admin {
 			$post_meta = get_post_meta( $posts[0]->ID, 'bright_form_data', true );
 
 			foreach($post_meta as $key => $value) {
-				register_setting( 'bright-form-backup-settings', 'bright_form_backup_' . $key );
+				if (!strpos($key, '-generated_key_bcfb')) {
+					register_setting( 'bright-form-backup-settings', 'bright_form_backup_' . $key );
+				}
 			}
 		}
 	}
@@ -194,8 +196,10 @@ class Bright_Contact_Form_Backup_Admin {
 
 			$post_meta = get_post_meta( $posts[0]->ID, 'bright_form_data', true );
 			foreach ($post_meta as $key => $value) {
-				if (esc_attr( get_option('bright_form_backup_' . $key) ) === 'on') {
-					$columns[$key] = $key;
+				if (!strpos($key, '-generated_key_bcfb')) {
+					if (esc_attr( get_option('bright_form_backup_' . $key) ) === 'on') {
+						$columns[$key] = $key;
+					}
 				}
 			}
       return $columns;
@@ -203,17 +207,24 @@ class Bright_Contact_Form_Backup_Admin {
 
 		function bright_add_custom_column($column, $post_id) {
 			global $post;
+			require_once plugin_dir_path( __FILE__ ) . 'class-bright-contact-form-backup-admin-cryption.php';
 
 			$post_meta = get_post_meta( $post_id, 'bright_form_data', true );
 			foreach($post_meta as $key => $value) {
-				if ($column === $key) {
-					if (esc_attr( get_option('bright_form_backup_' . $key) ) === 'on') {
-						if ($key === 'file_location') {
-							$value = '<a href="' . $value . '" target="_blank">' . $value . '</a>';
+				if (!strpos($key, '-generated_key_bcfb')) {
+					$cryptor = new Bright_Contact_Form_Backup_Admin_Cryption;
+					$decrypted = $cryptor->decrypt($value, $post_meta[$key . '-generated_key_bcfb']);
+
+					if ($column === $key) {
+						if (esc_attr( get_option('bright_form_backup_' . $key) ) === 'on') {
+							if ($key === 'file_location') {
+								$decrypted = '<a href="' . $decrypted . '" target="_blank">' . $decrypted . '</a>';
+							}
+							echo $decrypted;
 						}
-						echo $value;
 					}
 				}
+
 			}
 		}
 	}
@@ -296,7 +307,9 @@ class Bright_Contact_Form_Backup_Admin {
 		foreach ( $post as $key => $value ) {
 			$clean = sanitize_text_field($value);
 			$cryptor = new Bright_Contact_Form_Backup_Admin_Cryption;
-      $post_content[$key] = $cryptor->encrypt($clean);
+			$uniqiv = bin2hex($cryptor->iv());
+			$post_content[$key . '-generated_key_bcfb'] = $uniqiv;
+      $post_content[$key] = $cryptor->encrypt($clean, $uniqiv);
 		}
 
 		// create taxonomy term if does not exist yet
