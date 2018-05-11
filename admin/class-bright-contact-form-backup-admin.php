@@ -165,7 +165,7 @@ class Bright_Contact_Form_Backup_Admin {
 	public static function bright_register_taxonomy () {
 
 		$labels = array(
-			'name'              => 'Formulieren',
+			'name'              => 'Formulier',
 			'singular_name'     => 'Formulier',
 			'search_items'      => 'Zoek Formulieren',
 			'all_items'         => 'Alle Formulieren',

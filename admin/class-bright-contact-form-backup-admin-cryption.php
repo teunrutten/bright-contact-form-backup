@@ -40,7 +40,8 @@ class Bright_Contact_Form_Backup_Admin_Cryption {
   {
     if (in_array( self::$cipher, openssl_get_cipher_methods()) )
     {
-      $encrypted_data = openssl_encrypt( $plain_data, self::$cipher, self::$key, $options = 0, self::iv() );
+      // $encrypted_data = openssl_encrypt( $plain_data, self::$cipher, self::$key, $options = 0, self::iv() );
+      $encrypted_data = openssl_encrypt( $plain_data, self::$cipher, self::$key );
 
       return $encrypted_data;
     }
@@ -52,8 +53,13 @@ class Bright_Contact_Form_Backup_Admin_Cryption {
   {
     if (in_array( self::$cipher, openssl_get_cipher_methods()) )
     {
-      $plain_data = openssl_decrypt( $encrypted_data, self::$cipher, self::$key, $options = 0, self::iv() );
-
+      // $plain_data = openssl_decrypt( $encrypted_data, self::$cipher, self::$key, $options = 0, self::iv() );
+      $plain_data = openssl_decrypt( $encrypted_data, self::$cipher, self::$key );
+      // if (openssl_decrypt( $encrypted_data, self::$cipher, self::$key, $options = 0, self::iv() )) {
+      //   return 'no_error';
+      // } else {
+      //   return self::iv() . ' + ' . self::iv() . ' + ' . self::iv();
+      // }
       return $plain_data;
     }
 

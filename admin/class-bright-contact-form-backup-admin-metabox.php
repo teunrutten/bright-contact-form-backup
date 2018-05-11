@@ -65,8 +65,8 @@ class Bright_Contact_Form_Backup_Admin_Metabox {
           <?php foreach($post_meta as $key => $value) {
 
 						$cryptor = new Bright_Contact_Form_Backup_Admin_Cryption;
-						// $plain_value = $cryptor->decrypt($value);
-						$plain_value = $value;
+						$plain_value = $cryptor->decrypt($value);
+						// $plain_value = $value;
 						?>
             <tr>
               <?php if ($key === 'file_location' && $plain_value !== '') { ?>
