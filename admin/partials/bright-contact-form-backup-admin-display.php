@@ -26,7 +26,8 @@ if ($posts) {
 $periods = array(
   'week'  => 'een week',
   'month' => 'een maand',
-  'year'  => 'een jaar'
+  'year'  => 'een jaar',
+  'eternal' => 'voor altijd'
 );
 ?>
 
@@ -62,7 +63,7 @@ $periods = array(
                     <?php echo $key; ?>
                   </label>
                 </p>
-              <?php 
+              <?php
                 endif;
               endforeach;
               ?>
