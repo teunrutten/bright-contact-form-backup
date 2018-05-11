@@ -262,6 +262,7 @@ class Bright_Contact_Form_Backup_Admin {
 
 	// Hook triggered when form is submitted
 	public static function bright_create_form_submission ($post) {
+
 		require_once plugin_dir_path( __FILE__ ) . 'class-bright-contact-form-backup-admin-cryption.php';
 
 		$post_content = array();
