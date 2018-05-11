@@ -126,6 +126,7 @@ class Bright_Contact_Form_Backup_Admin {
 			)
 		);
 
+		// Register a setting for each available meta key
 		if ($posts) {
 			$post_meta = get_post_meta( $posts[0]->ID, 'bright_form_data', true );
 
@@ -137,7 +138,7 @@ class Bright_Contact_Form_Backup_Admin {
 
 
 
-
+	// Register a private post type
 	public static function bright_register_post_type () {
 		$labels = array(
 			'name'                => 'Bright - Inzendingen',
@@ -178,6 +179,8 @@ class Bright_Contact_Form_Backup_Admin {
 		);
 
 		register_post_type('brightsubmissions', $args);
+
+		// Add filter and action to add new admin columns
 		add_filter("manage_edit-brightsubmissions_columns", 'add_custom_admin_column' );
 		add_action('manage_brightsubmissions_posts_custom_column', 'bright_add_custom_column', 10, 2);
 
@@ -215,11 +218,13 @@ class Bright_Contact_Form_Backup_Admin {
 		}
 	}
 
+	// Create the metabox from the metabox class
 	public static function bright_create_meta_box() {
 		require_once plugin_dir_path( __FILE__ ) . 'class-bright-contact-form-backup-admin-metabox.php';
 		$metabox = new Bright_Contact_Form_Backup_Admin_Metabox();
 	}
 
+	// Hook triggered when form is submitted
 	public static function bright_create_form_submission ($post) {
 		$post_content = array();
 		$form_title   = isset( $post['form_title'] ) ? sanitize_text_field( $post['form_title'] ) : 'Onbekend';
@@ -260,6 +265,7 @@ class Bright_Contact_Form_Backup_Admin {
 			}
 		}
 
+		// Cleanup the form data
 		foreach ( $post as $key => $value ) {
 			$clean = sanitize_text_field($value);
       $post_content[$key] = $clean;
@@ -272,13 +278,16 @@ class Bright_Contact_Form_Backup_Admin {
 	    'post_type' => 'brightsubmissions',
     );
 
+		// Insert post and retrieve post_ID
 		$post_id = wp_insert_post( $new_post, $wp_error );
 
+		// Inset the post meta into the post
 		if ($post_id !== 0 && !is_wp_error( $post_id )) {
 			add_post_meta( $post_id, 'bright_form_data', $post_content );
 		}
 	}
 
+	// Remove the submit box
 	public static function bright_remove_publish_box() {
 		remove_meta_box( 'submitdiv', 'brightsubmissions', 'side' );
 	}
