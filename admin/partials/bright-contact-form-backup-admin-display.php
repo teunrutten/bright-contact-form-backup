@@ -28,15 +28,42 @@
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <div class="wrap bright-backup-form-wrap">
+
   <h1>Bright - Formulier backup instellingen</h1>
-  <p>Hier komen alle instellingen</p>
+
   <form method="post" action="options.php">
-    <?php
-      settings_fields( 'bright-form-backup-settings' );
-      do_settings_sections( 'bright-form-backup-settings' );
-      foreach($post_meta as $key => $value) { ?>
-        <input type="checkbox" name="bright_form_backup_<?php echo $key; ?>" <?php echo esc_attr( get_option('bright_form_backup_' . $key) ) == 'on' ? 'checked="checked"' : ''; ?> /><?php echo $key; ?><br>
-      <?php } ?>
-    <?php submit_button(); ?>
+    
+    <table class="form-table">
+      <tbody>
+        <tr>
+          <th scope="row">Toon deze kolommen:</th>
+          <td>
+            <fieldset>
+              <?php
+              settings_fields( 'bright-form-backup-settings' );
+              do_settings_sections( 'bright-form-backup-settings' );
+              foreach($post_meta as $key => $value) : ?>
+                <p>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="bright_form_backup_<?php echo $key; ?>"
+                      <?php echo esc_attr( get_option('bright_form_backup_' . $key) ) == 'on' ? 'checked="checked"' : ''; ?>
+                    />
+                    <?php echo $key; ?>
+                  </label>
+                </p>
+              <?php endforeach; ?>
+            </fieldset>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="submit">
+      <?php submit_button(); ?>
+    </p>
+
   </form>
+
 </div>
