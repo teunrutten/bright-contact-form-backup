@@ -105,7 +105,7 @@ class Bright_Contact_Form_Backup_Admin {
 	 * @since    1.0.0
 	 */
 	public static function bright_options_page() {
-		add_options_page( 'Bright - Form Backup', 'Bright - Form Backup', 'manage_options', 'bright-contact-form-backup', function() {
+		add_submenu_page( 'edit.php?post_type=brightsubmissions', 'Instellingen', 'Instellingen', 'manage_options', 'bright-contact-form-backup', function() {
 			include(plugin_dir_path( __FILE__ ) . 'partials/bright-contact-form-backup-admin-display.php');
 		} );
 	}

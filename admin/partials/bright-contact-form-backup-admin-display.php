@@ -34,9 +34,10 @@
     <?php
       settings_fields( 'bright-form-backup-settings' );
       do_settings_sections( 'bright-form-backup-settings' );
-      foreach($post_meta as $key => $value) { ?>
+      foreach($post_meta as $key => $value) {
+        if (!strpos($key, '-generated_key_bcfb')) { ?>
         <input type="checkbox" name="bright_form_backup_<?php echo $key; ?>" <?php echo esc_attr( get_option('bright_form_backup_' . $key) ) == 'on' ? 'checked="checked"' : ''; ?> /><?php echo $key; ?><br>
-      <?php } ?>
+      <?php } } ?>
     <?php submit_button(); ?>
   </form>
 </div>
