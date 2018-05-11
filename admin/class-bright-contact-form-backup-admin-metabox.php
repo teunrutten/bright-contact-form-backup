@@ -61,7 +61,7 @@ class Bright_Contact_Form_Backup_Admin_Metabox {
       if (get_post_meta( $post->ID, 'bright_form_data', true )) {
         $post_meta = get_post_meta( $post->ID, 'bright_form_data', true );
         ?>
-        <table>
+        <table class="form-table">
           <?php foreach($post_meta as $key => $value) {
 						if (!strpos($key, '-generated_key_bcfb')) {
 							$cryptor = new Bright_Contact_Form_Backup_Admin_Cryption;
@@ -70,10 +70,10 @@ class Bright_Contact_Form_Backup_Admin_Metabox {
 							?>
 	            <tr>
 	              <?php if ($key === 'file_location' && $plain_value !== '') { ?>
-	                <th><?php echo $key; ?></th>
+	                <th scope="row"><?php echo $key; ?></th>
 	                <td><a href="<?php echo $plain_value; ?>" target="_blank"><?php echo $cryptor->decrypt($post_meta['file_name'], $post_meta['file_name-generated_key_bcfb']); ?></a><td>
 	              <?php } else { ?>
-	                <th><?php echo $key; ?></th>
+	                <th scope="row"><?php echo $key; ?></th>
 	                <td><?php echo $plain_value; ?><td>
 	              <?php } ?>
 	            </tr>

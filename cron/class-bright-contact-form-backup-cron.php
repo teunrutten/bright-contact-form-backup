@@ -16,6 +16,11 @@ require_once( __DIR__.'/../../../../wordpress/wp-load.php');
 
 $period = esc_attr( get_option('bright_form_backup_period') );
 
+// early return if no period or if period is eternal
+if (! $period || $period == 'eternal') {
+  return;
+}
+
 // early return if invalid period
 if ($period != 'week' && $period != 'month' && $period != 'year') {
   return;
