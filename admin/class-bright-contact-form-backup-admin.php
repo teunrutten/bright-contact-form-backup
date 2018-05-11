@@ -205,6 +205,9 @@ class Bright_Contact_Form_Backup_Admin {
 			foreach($post_meta as $key => $value) {
 				if ($column === $key) {
 					if (esc_attr( get_option('bright_form_backup_' . $key) ) === 'on') {
+						if ($key === 'file_location') {
+							$value = '<a href="' . $value . '" target="_blank">' . $value . '</a>';
+						}
 						echo $value;
 					}
 				}
