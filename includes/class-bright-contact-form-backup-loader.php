@@ -71,6 +71,7 @@ class Bright_Contact_Form_Backup_Loader {
 		$this->actions = $this->add( $this->actions, 'bright_save_form_submission', 'Bright_Contact_Form_Backup_Admin', 'bright_create_form_submission', $priority, $accepted_args );
 		$this->actions = $this->add( $this->actions, 'init', 'Bright_Contact_Form_Backup_Admin', 'bright_create_meta_box', $priority, $accepted_args );
 		$this->actions = $this->add( $this->actions, 'admin_menu', 'Bright_Contact_Form_Backup_Admin', 'bright_remove_publish_box', $priority, $accepted_args );
+		// $this->actions = $this->add( $this->actions, 'manage_brightsubmissions_posts_custom_column', 'Bright_Contact_Form_Backup_Admin', 'bright_add_custom_column', 10, 2 );
 	}
 
 	/**
@@ -84,7 +85,7 @@ class Bright_Contact_Form_Backup_Loader {
 	 * @param    int                  $accepted_args    Optional. The number of arguments that should be passed to the $callback. Default is 1
 	 */
 	public function add_filter( $hook, $component, $callback, $priority = 10, $accepted_args = 1 ) {
-		$this->filters = $this->add( $this->filters, $hook, $component, $callback, $priority, $accepted_args );
+		// $this->filters = $this->add( $this->filters, 'manage_edit-brightsubmissions_columns', 'Bright_Contact_Form_Backup_Admin', 'bright_set_custom_columns', 10, 2 );
 	}
 
 	/**
@@ -121,7 +122,6 @@ class Bright_Contact_Form_Backup_Loader {
 	 * @since    1.0.0
 	 */
 	public function run() {
-
 		foreach ( $this->filters as $hook ) {
 			add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}

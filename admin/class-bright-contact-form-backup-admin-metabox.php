@@ -40,10 +40,10 @@ class Bright_Contact_Form_Backup_Admin_Metabox {
      */
     public function add_metabox() {
       add_meta_box(
-        'bright_submissions_metabox',
+        'brightsubmissions_metabox',
         'Inzendingen veld',
         array( $this, 'render_metabox' ),
-        'bright_submissions',
+        'brightsubmissions',
         'normal',
         'high'
       );
@@ -56,7 +56,7 @@ class Bright_Contact_Form_Backup_Admin_Metabox {
 			require_once plugin_dir_path( __FILE__ ) . 'class-bright-contact-form-backup-admin-cryption.php';
 
       // Add nonce for security and authentication.
-      wp_nonce_field( 'bright_submissions_nonce_action', 'bright_submissions_nonce' );
+      wp_nonce_field( 'brightsubmissions_nonce_action', 'brightsubmissions_nonce' );
 
       if (get_post_meta( $post->ID, 'bright_form_data', true )) {
         $post_meta = get_post_meta( $post->ID, 'bright_form_data', true );
@@ -95,8 +95,8 @@ class Bright_Contact_Form_Backup_Admin_Metabox {
      */
     public function save_metabox( $post_id, $post ) {
       // Add nonce for security and authentication.
-      $nonce_name   = isset( $_POST['bright_submissions_nonce'] ) ? $_POST['bright_submissions_nonce'] : '';
-      $nonce_action = 'bright_submissions_nonce_action';
+      $nonce_name   = isset( $_POST['brightsubmissions_nonce'] ) ? $_POST['brightsubmissions_nonce'] : '';
+      $nonce_action = 'brightsubmissions_nonce_action';
 
       // Check if nonce is set.
       if ( ! isset( $nonce_name ) ) {
