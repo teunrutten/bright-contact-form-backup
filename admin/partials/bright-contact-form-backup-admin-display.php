@@ -48,7 +48,10 @@ $periods = array(
           <th scope="row">Toon deze kolommen:</th>
           <td>
             <fieldset>
-              <?php foreach($post_meta as $key => $value) : ?>
+              <?php
+              foreach($post_meta as $key => $value) :
+                if (!strpos($key, '-generated_key_bcfb')) :
+              ?>
                 <p>
                   <label>
                     <input
@@ -59,7 +62,10 @@ $periods = array(
                     <?php echo $key; ?>
                   </label>
                 </p>
-              <?php endforeach; ?>
+              <?php 
+                endif;
+              endforeach;
+              ?>
             </fieldset>
           </td>
         </tr>

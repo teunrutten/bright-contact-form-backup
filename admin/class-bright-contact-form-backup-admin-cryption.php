@@ -30,18 +30,18 @@ class Bright_Contact_Form_Backup_Admin_Cryption {
     return openssl_cipher_iv_length(self::$cipher);
   }
 
-  protected static function iv()
+  public static function iv()
   {
     $ivlen = self::ivlen();
     return openssl_random_pseudo_bytes($ivlen);
   }
 
-  public function encrypt( $plain_data )
+  public function encrypt( $plain_data, $uniqiv )
   {
     if (in_array( self::$cipher, openssl_get_cipher_methods()) )
     {
       // $encrypted_data = openssl_encrypt( $plain_data, self::$cipher, self::$key, $options = 0, self::iv() );
-      $encrypted_data = openssl_encrypt( $plain_data, self::$cipher, self::$key );
+      $encrypted_data = openssl_encrypt( $plain_data, self::$cipher, self::$key, $options = 0, hex2bin($uniqiv) );
 
       return $encrypted_data;
     }
@@ -49,12 +49,12 @@ class Bright_Contact_Form_Backup_Admin_Cryption {
     return 'encryption failed';
   }
 
-  public function decrypt( $encrypted_data )
+  public function decrypt( $encrypted_data, $uniqiv )
   {
     if (in_array( self::$cipher, openssl_get_cipher_methods()) )
     {
       // $plain_data = openssl_decrypt( $encrypted_data, self::$cipher, self::$key, $options = 0, self::iv() );
-      $plain_data = openssl_decrypt( $encrypted_data, self::$cipher, self::$key );
+      $plain_data = openssl_decrypt( $encrypted_data, self::$cipher, self::$key, $options = 0, hex2bin($uniqiv) );
       // if (openssl_decrypt( $encrypted_data, self::$cipher, self::$key, $options = 0, self::iv() )) {
       //   return 'no_error';
       // } else {
