@@ -66,7 +66,6 @@ class Bright_Contact_Form_Backup_Admin_Metabox {
 						if (!strpos($key, '-generated_key_bcfb')) {
 							$cryptor = new Bright_Contact_Form_Backup_Admin_Cryption;
 							$plain_value = $cryptor->decrypt($value, $post_meta[$key . '-generated_key_bcfb']);
-							// $plain_value = $value;
 							?>
 	            <tr>
 	              <?php if ($key === 'file_location' && $plain_value !== '') { ?>

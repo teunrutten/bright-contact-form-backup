@@ -13,7 +13,7 @@
 
 $posts = get_posts(array(
    'post_type'   => 'brightsubmissions',
-   'post_status' => 'publish',
+   'post_status' => 'private',
    'posts_per_page' => -1
    )
 );

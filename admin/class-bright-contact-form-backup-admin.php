@@ -194,6 +194,7 @@ class Bright_Contact_Form_Backup_Admin {
 			  )
 			);
 
+
 			$post_meta = get_post_meta( $posts[0]->ID, 'bright_form_data', true );
 			foreach ($post_meta as $key => $value) {
 				if (!strpos($key, '-generated_key_bcfb')) {
@@ -202,6 +203,7 @@ class Bright_Contact_Form_Backup_Admin {
 					}
 				}
 			}
+
       return $columns;
 		}
 
@@ -313,34 +315,30 @@ class Bright_Contact_Form_Backup_Admin {
       $post_content[$key] = $cryptor->encrypt($clean, $uniqiv) ? $cryptor->encrypt($clean, $uniqiv) : '';
 		}
 
-		$tax = array();
-		// create taxonomy term if does not exist yet
-		if ($post['form_title']) {
-			$tax = term_exists( $post['form_title'], 'bright_form_name' );
+		// Create tax term if does not exist yet
+		$post['form_title'] = isset($post['form_title']) ? $post['form_title'] : 'onbekend';
+		// $post['form_title'] = 'Onbekend';
 
-			if ( !$tax ) {
-				$tax = wp_insert_term( $post['form_title'], 'bright_form_name' );
-			}
-		} else {
-			return;
+		$tax = term_exists( $post['form_title'], 'bright_form_name' );
+
+		if ( !$tax ) {
+			$tax = wp_insert_term( $post['form_title'], 'bright_form_name' );
 		}
 
 		$new_post = array(
 	    'post_title' => 'Inzending #' . uniqid(),
 	    'post_status' => 'private',
 	    'post_author' => 1,
-	    'post_type' => 'brightsubmissions',
-			'tax_input' => array(
-				'bright_form_name' => array( $tax['term_taxonomy_id'] ),
-			)
+	    'post_type' => 'brightsubmissions'
     );
 
 		// Insert post and retrieve post_ID
-		$post_id = wp_insert_post( $new_post, $wp_error );
+		$post_id = wp_insert_post( $new_post );
 
 		// Inset the post meta into the post
-		if ($post_id !== 0 && !is_wp_error( $post_id )) {
+		if ($post_id !== 0) {
 			add_post_meta( $post_id, 'bright_form_data', $post_content );
+			wp_set_post_terms($post_id, array( $tax['term_taxonomy_id'] ), 'bright_form_name');
 		}
 	}
 
