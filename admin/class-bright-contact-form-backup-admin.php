@@ -121,7 +121,7 @@ class Bright_Contact_Form_Backup_Admin {
 
 		$posts = get_posts(array(
 			'post_type'   => 'brightsubmissions',
-			'post_status' => 'publish',
+			'post_status' => 'private',
 			'posts_per_page' => -1
 			)
 		);
@@ -189,7 +189,7 @@ class Bright_Contact_Form_Backup_Admin {
 		function add_custom_admin_column($columns) {
 			$posts = get_posts(array(
 		    'post_type'   => 'brightsubmissions',
-		    'post_status' => 'publish',
+		    'post_status' => 'private',
 		    'posts_per_page' => -1
 			  )
 			);
@@ -327,7 +327,7 @@ class Bright_Contact_Form_Backup_Admin {
 
 		$new_post = array(
 	    'post_title' => 'Inzending #' . uniqid(),
-	    'post_status' => 'publish',
+	    'post_status' => 'private',
 	    'post_author' => 1,
 	    'post_type' => 'brightsubmissions',
 			'tax_input' => array(

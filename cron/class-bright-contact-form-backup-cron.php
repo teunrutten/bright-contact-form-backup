@@ -29,7 +29,7 @@ if ($period != 'week' && $period != 'month' && $period != 'year') {
 // grab posts from a certain period ago
 $args = array(
   'post_type' => 'brightsubmissions',
-  'post_status' => 'publish',
+  'post_status' => 'private',
   'posts_per_page' => -1,
   'date_query' => array(
     array(
