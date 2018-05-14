@@ -262,6 +262,7 @@ class Bright_Contact_Form_Backup_Admin {
 
 	// Hook triggered when form is submitted
 	public static function bright_create_form_submission ($post) {
+		$post = $_POST;
 
 		require_once plugin_dir_path( __FILE__ ) . 'class-bright-contact-form-backup-admin-cryption.php';
 
@@ -307,16 +308,21 @@ class Bright_Contact_Form_Backup_Admin {
 		foreach ( $post as $key => $value ) {
 			$clean = sanitize_text_field($value);
 			$cryptor = new Bright_Contact_Form_Backup_Admin_Cryption;
-			$uniqiv = bin2hex($cryptor->iv());
+			$uniqiv = bin2hex($cryptor->iv()) ? bin2hex($cryptor->iv()) : '';
 			$post_content[$key . '-generated_key_bcfb'] = $uniqiv;
-      $post_content[$key] = $cryptor->encrypt($clean, $uniqiv);
+      $post_content[$key] = $cryptor->encrypt($clean, $uniqiv) ? $cryptor->encrypt($clean, $uniqiv) : '';
 		}
 
+		$tax = array();
 		// create taxonomy term if does not exist yet
-		$tax = term_exists( $post['form_title'], 'bright_form_name' );
+		if ($post['form_title']) {
+			$tax = term_exists( $post['form_title'], 'bright_form_name' );
 
-		if ( !$tax ) {
-			$tax = wp_insert_term( $post['form_title'], 'bright_form_name' );
+			if ( !$tax ) {
+				$tax = wp_insert_term( $post['form_title'], 'bright_form_name' );
+			}
+		} else {
+			return;
 		}
 
 		$new_post = array(
