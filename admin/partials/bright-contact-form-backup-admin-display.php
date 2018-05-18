@@ -18,9 +18,21 @@ $posts = get_posts(array(
    )
 );
 if ($posts) {
-   $post_meta = get_post_meta( $posts[0]->ID, 'bright_form_data', true );
+  $admin_settings = array();
+
+  foreach($posts as $key => $post) {
+    $post_meta = get_post_meta( $post->ID, 'bright_form_data', true );
+
+    foreach ($post_meta as $key => $value) {
+      if (!strpos($key, '-generated_key_bcfb')) {
+        $admin_settings[$key] = $key;
+      }
+    }
+  }
+
+  $admin_settings = array_unique($admin_settings);
 } else {
-   $post_meta = array();
+   $admin_settings = array();
 }
 
 $periods = array(
@@ -60,7 +72,7 @@ $periods = array(
           <td>
             <fieldset>
               <?php
-              foreach($post_meta as $key => $value) :
+              foreach($admin_settings as $key => $value) :
                 if (!strpos($key, '-generated_key_bcfb')) :
               ?>
                 <p>
