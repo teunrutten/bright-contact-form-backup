@@ -44,6 +44,16 @@ $periods = array(
 
     <table class="form-table">
       <tbody>
+        <tr>
+            <td>
+              <fieldset>
+                <p>
+                  <strong>Indien er bestanden geupload kunnen worden, plaats dan de volgende veldnamen komma gescheiden:</strong><br><br>
+                  <input type="text" placeholder="bestand_1,bestand_2,bestand_3" name="bright_form_backup_input_fields" value="<?php echo esc_attr( get_option('bright_form_backup_input_fields') ); ?>" size="50" />
+                </p>
+              </fieldset>
+            </td>
+        </tr>
 
         <tr>
           <th scope="row">Toon deze kolommen:</th>

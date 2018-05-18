@@ -118,6 +118,7 @@ class Bright_Contact_Form_Backup_Admin {
 	public static function bright_register_settings() {
 		// Add the default settings
 		register_setting( 'bright-form-backup-settings', 'bright_form_backup_period' );
+		register_setting( 'bright-form-backup-settings', 'bright_form_backup_input_fields' );
 
 		$posts = get_posts(array(
 			'post_type'   => 'brightsubmissions',
@@ -270,41 +271,58 @@ class Bright_Contact_Form_Backup_Admin {
 
 		$post_content = array();
 
-		// Check if a file is posted, and if the file excists, if so, set location as meta data
-		if (isset( $_FILES['bestand']['name'] ) && ! empty( $_FILES['bestand']['name'] )) {
-			if (file_exists( WP_CONTENT_DIR . '/uploads/tmp/' . $_FILES['bestand']['name'] )) {
-				$upload_dir = wp_upload_dir();
-				$post['file_location'] = $upload_dir['baseurl'] . '/tmp/' . $_FILES['bestand']['name'];
-				$post['file_name'] = $_FILES['bestand']['name'];
-			} else {
-				$post['file_location'] = '';
-				$post['file_name'] = $_FILES['bestand']['name'];
+		$input_fields = esc_attr( get_option('bright_form_backup_input_fields') );
+
+		$input_fields = ($input_fields !== '') ? explode(',', $input_fields) : array();
+
+		foreach($input_fields as $key => $field) {
+			if (isset( $_FILES[$field]['name'] ) && ! empty( $_FILES[$field]['name'] )) {
+				if (file_exists( WP_CONTENT_DIR . '/uploads/tmp/' . $_FILES[$field]['name'] )) {
+					$upload_dir = wp_upload_dir();
+					$post['file_location'] = $upload_dir['baseurl'] . '/tmp/' . $_FILES[$field]['name'];
+					$post['file_name'] = $_FILES[$field]['name'];
+				} else {
+					$post['file_location'] = '';
+					$post['file_name'] = $_FILES[$field]['name'];
+				}
 			}
 		}
 
-		// Check if a file is posted, and if the file excists, if so, set location as meta data
-		if (isset( $_FILES['bestand_2']['name'] ) && ! empty( $_FILES['bestand_2']['name'] )) {
-			if (file_exists( WP_CONTENT_DIR . '/uploads/tmp/' . $_FILES['bestand_2']['name'] )) {
-				$upload_dir = wp_upload_dir();
-				$post['file_location'] = $upload_dir['baseurl'] . '/tmp/' . $_FILES['bestand_2']['name'];
-				$post['file_name'] = $_FILES['bestand_2']['name'];
-			} else {
-				$post['file_location'] = '';
-				$post['file_name'] = $_FILES['bestand_2']['name'];
-			}
-		}
-
-		// Check if a file is posted, and if the file excists, if so, set location as meta data
-		if (isset( $_FILES['bestand_3']['name'] ) && ! empty( $_FILES['bestand_3']['name'] )) {
-			if (file_exists( WP_CONTENT_DIR . '/uploads/tmp/' . $_FILES['bestand_3']['name'] )) {
-				$upload_dir = wp_upload_dir();
-				$post['file_location'] = $upload_dir['baseurl'] . '/tmp/' . $_FILES['bestand_3']['name'];
-				$post['file_name'] = $_FILES['bestand_3']['name'];
-			} else {
-				$post['file_location'] = '';
-				$post['file_name'] = $_FILES['bestand_3']['name'];
-			}
-		}
+		// // Check if a file is posted, and if the file excists, if so, set location as meta data
+		// if (isset( $_FILES['bestand']['name'] ) && ! empty( $_FILES['bestand']['name'] )) {
+		// 	if (file_exists( WP_CONTENT_DIR . '/uploads/tmp/' . $_FILES['bestand']['name'] )) {
+		// 		$upload_dir = wp_upload_dir();
+		// 		$post['file_location'] = $upload_dir['baseurl'] . '/tmp/' . $_FILES['bestand']['name'];
+		// 		$post['file_name'] = $_FILES['bestand']['name'];
+		// 	} else {
+		// 		$post['file_location'] = '';
+		// 		$post['file_name'] = $_FILES['bestand']['name'];
+		// 	}
+		// }
+		//
+		// // Check if a file is posted, and if the file excists, if so, set location as meta data
+		// if (isset( $_FILES['bestand_2']['name'] ) && ! empty( $_FILES['bestand_2']['name'] )) {
+		// 	if (file_exists( WP_CONTENT_DIR . '/uploads/tmp/' . $_FILES['bestand_2']['name'] )) {
+		// 		$upload_dir = wp_upload_dir();
+		// 		$post['file_location'] = $upload_dir['baseurl'] . '/tmp/' . $_FILES['bestand_2']['name'];
+		// 		$post['file_name'] = $_FILES['bestand_2']['name'];
+		// 	} else {
+		// 		$post['file_location'] = '';
+		// 		$post['file_name'] = $_FILES['bestand_2']['name'];
+		// 	}
+		// }
+		//
+		// // Check if a file is posted, and if the file excists, if so, set location as meta data
+		// if (isset( $_FILES['bestand_3']['name'] ) && ! empty( $_FILES['bestand_3']['name'] )) {
+		// 	if (file_exists( WP_CONTENT_DIR . '/uploads/tmp/' . $_FILES['bestand_3']['name'] )) {
+		// 		$upload_dir = wp_upload_dir();
+		// 		$post['file_location'] = $upload_dir['baseurl'] . '/tmp/' . $_FILES['bestand_3']['name'];
+		// 		$post['file_name'] = $_FILES['bestand_3']['name'];
+		// 	} else {
+		// 		$post['file_location'] = '';
+		// 		$post['file_name'] = $_FILES['bestand_3']['name'];
+		// 	}
+		// }
 
 		// Cleanup the form data
 		foreach ( $post as $key => $value ) {
