@@ -227,7 +227,11 @@ class Bright_Contact_Form_Backup_Admin {
 				}
 			}
 
-			$columns = array_unique($admin_columns);
+			$admin_columns = array_unique($admin_columns);
+
+			foreach($admin_columns as $key => $value) {
+				$columns[$key] = $key;
+			}
 
       return $columns;
 		}
