@@ -127,16 +127,34 @@ class Bright_Contact_Form_Backup_Admin {
 			)
 		);
 
-		// Register a setting for each available meta key
-		if ($posts) {
-			$post_meta = get_post_meta( $posts[0]->ID, 'bright_form_data', true );
+		$admin_settings = array();
 
-			foreach($post_meta as $key => $value) {
+		foreach($posts as $key => $post) {
+			$post_meta = get_post_meta( $post->ID, 'bright_form_data', true );
+
+			foreach ($post_meta as $key => $value) {
 				if (!strpos($key, '-generated_key_bcfb')) {
-					register_setting( 'bright-form-backup-settings', 'bright_form_backup_' . $key );
+					$admin_settings[$key] = $key;
 				}
 			}
 		}
+
+		$admin_settings = array_unique($admin_settings);
+
+		foreach($admin_settings as $key => $settings) {
+			register_setting( 'bright-form-backup-settings', 'bright_form_backup_' . $key );
+		}
+
+		// Register a setting for each available meta key
+		// if ($posts) {
+		// 	$post_meta = get_post_meta( $posts[0]->ID, 'bright_form_data', true );
+		//
+		// 	foreach($post_meta as $key => $value) {
+		// 		if (!strpos($key, '-generated_key_bcfb')) {
+		// 			register_setting( 'bright-form-backup-settings', 'bright_form_backup_' . $key );
+		// 		}
+		// 	}
+		// }
 	}
 
 
