@@ -195,15 +195,21 @@ class Bright_Contact_Form_Backup_Admin {
 			  )
 			);
 
+			$admin_columns = array();
 
-			$post_meta = get_post_meta( $posts[0]->ID, 'bright_form_data', true );
-			foreach ($post_meta as $key => $value) {
-				if (!strpos($key, '-generated_key_bcfb')) {
-					if (esc_attr( get_option('bright_form_backup_' . $key) ) === 'on') {
-						$columns[$key] = $key;
+			foreach($posts as $key => $post) {
+				$post_meta = get_post_meta( $post->ID, 'bright_form_data', true );
+
+				foreach ($post_meta as $key => $value) {
+					if (!strpos($key, '-generated_key_bcfb')) {
+						if (esc_attr( get_option('bright_form_backup_' . $key) ) === 'on') {
+							$admin_columns[$key] = $key;
+						}
 					}
 				}
 			}
+
+			$columns = array_unique($admin_columns);
 
       return $columns;
 		}
